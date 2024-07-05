@@ -1,3 +1,8 @@
 <template>
-  Index
+  <div>
+    Index
+  </div>
 </template>
+
+<script setup lang="ts">
+</script>

@@ -10,21 +10,27 @@
 
     <div>
       Loaded from app.vue
-      <br />
-      {{ JSON.stringify(data) }}
+      <br>
+      {{ JSON.stringify(jokeStore.joke) }}
     </div>
+
+    <button @click="jokeStore.fetchJoke">Refetch</button>
   </div>
 </template>
 
 <script setup lang="ts">
-  const route = useRoute();
-  const id = ref(getId())
+import { useJokesStore } from './stores/jokes.store';
 
-  const { data } = useFetch<{id: number; title: string}[]>('https://jsonplaceholder.typicode.com/photos?_limit=1');
+  const jokeStore = useJokesStore();
+
+  await useAsyncData('joke', async () => jokeStore.fetchJoke());
+
+  const route = useRoute();
+  const id = useState(() => getId())
 
   function getId() {
     return Math.random().toString(32).slice(2);
-  }
+  }  
 
   watch(
     () => route.path,
